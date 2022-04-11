@@ -56,7 +56,27 @@ local supported_languages = {
   omnisharp = { image = "docker.io/lspcontainers/omnisharp" },
   powershell_es = { image = "docker.io/lspcontainers/powershell-language-server" },
   pylsp = { image = "docker.io/lspcontainers/python-lsp-server" },
-  pyright = { image = "docker.io/lspcontainers/pyright-langserver" },
+  pyright = { 
+    cmd_builder = function (runtime, workdir, image, network)
+      pyenv_volume = ""
+      if env.PYENV_ROOT then
+        pyenv_volume = "--volume="..env.PYENV_ROOT..":"..env.PYENV_ROOT,
+      end
+      return {
+        runtime,
+        "container",
+        "run",
+        "--interactive",
+        "--network="..network,
+        "--rm",
+        "--workdir="..workdir,
+        "--volume="..workdir..":"..workdir,
+        pyenv_volume,
+        image
+      }
+    end,
+    image = "docker.io/lspcontainers/pyright-langserver",
+  },
   rust_analyzer = { image = "docker.io/lspcontainers/rust-analyzer" },
   solargraph = { image = "docker.io/lspcontainers/solargraph" },
   svelte = { image = "docker.io/lspcontainers/svelte-language-server" },
