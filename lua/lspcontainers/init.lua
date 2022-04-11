@@ -60,7 +60,7 @@ local supported_languages = {
     cmd_builder = function (runtime, workdir, image, network, docker_volume)
       local pyenv_volume = ""
       if env.PYENV_ROOT ~= nil then
-        pyenv_volume = "--volume="..env.PYENV_ROOT..":"..env.PYENV_ROOT,
+        pyenv_volume = "--volume="..env.PYENV_ROOT..":"..env.PYENV_ROOT
       end
       return {
         runtime,
