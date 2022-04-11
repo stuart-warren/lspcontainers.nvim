@@ -67,6 +67,8 @@ local supported_languages = {
         runtime,
         "container",
         "run",
+        "--env",
+        "VIRTUAL_ENV"
         "--interactive",
         "--network="..network,
         "--rm",
