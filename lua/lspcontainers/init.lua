@@ -10,7 +10,7 @@ local supported_languages = {
   gopls = {
     cmd_builder = function (runtime, workdir, image, network, docker_volume)
       local volume = workdir..":"..workdir
-      local env = vim.api.nvim_eval('environ()')
+      local env = vim.env
       local gopath = env.GOPATH or env.HOME.."/go"
       local gopath_volume = gopath..":"..gopath
 
@@ -59,6 +59,7 @@ local supported_languages = {
   pyright = { 
     cmd_builder = function (runtime, workdir, image, network, docker_volume)
       local pyenv_volume = ""
+      local env = vim.env
       if env.PYENV_ROOT ~= nil then
         pyenv_volume = "--volume="..env.PYENV_ROOT..":"..env.PYENV_ROOT
       end
