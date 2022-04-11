@@ -8,7 +8,7 @@ local supported_languages = {
   dockerls = { image = "docker.io/lspcontainers/docker-language-server" },
   graphql = { image = "docker.io/lspcontainers/graphql-language-service-cli" },
   gopls = {
-    cmd_builder = function (runtime, workdir, image, network)
+    cmd_builder = function (runtime, workdir, image, network, docker_volume)
       local volume = workdir..":"..workdir
       local env = vim.api.nvim_eval('environ()')
       local gopath = env.GOPATH or env.HOME.."/go"
@@ -57,9 +57,9 @@ local supported_languages = {
   powershell_es = { image = "docker.io/lspcontainers/powershell-language-server" },
   pylsp = { image = "docker.io/lspcontainers/python-lsp-server" },
   pyright = { 
-    cmd_builder = function (runtime, workdir, image, network)
-      pyenv_volume = ""
-      if env.PYENV_ROOT then
+    cmd_builder = function (runtime, workdir, image, network, docker_volume)
+      local pyenv_volume = ""
+      if env.PYENV_ROOT ~= nil then
         pyenv_volume = "--volume="..env.PYENV_ROOT..":"..env.PYENV_ROOT,
       end
       return {
